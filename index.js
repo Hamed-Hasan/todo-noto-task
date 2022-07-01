@@ -39,16 +39,28 @@ app.delete('/task/:id', async (req, res) => {
     const result = taskCollection.deleteOne(query);
     res.send(result);
 })
+
+//edit task
 app.put('/task/:id', async (req, res) => {
     const id = req.params.id;
     const task = req.body;
-    const query = {_id: ObjectId(id)}
-    const filter = {
-        $set: task
-    }
-    const update = await completeCollection.update(query, filter);
-    res.send(update);
+    const filter = { _id: ObjectId(id) };
+    const options = { upsert: true };
+    const updateDoc = {
+        $set: task,
+    };
+    const result = await taskCollection.updateOne(filter, updateDoc, options);
+    res.send(result);
 })
+
+
+//complete task
+app.post('/complete', async (req, res) => {
+    const completeTask = req.body;
+    const result = await completeCollection.insertOne(completeTask);
+    res.send(result);
+})
+
 
     }
     finally {
