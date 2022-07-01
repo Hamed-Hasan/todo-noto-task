@@ -32,6 +32,12 @@ async function run() {
     const task = await taskCollection.find().toArray();
     res.send(task);
 })
+app.delete('/task/:id', async (req, res) => {
+    const id = req.params.id;
+    const query = {id: ObjectId(id)} 
+    const result = await taskCollection.deleteOne(query);
+    res.send(result);
+})
 
     }
     finally {
