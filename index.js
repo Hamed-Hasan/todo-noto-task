@@ -32,11 +32,22 @@ async function run() {
     const task = await taskCollection.find().toArray();
     res.send(task);
 })
+//delete task
 app.delete('/task/:id', async (req, res) => {
     const id = req.params.id;
-    const query = {id: ObjectId(id)} 
-    const result = await taskCollection.deleteOne(query);
+    const query = { _id: ObjectId(id) };
+    const result = taskCollection.deleteOne(query);
     res.send(result);
+})
+app.put('/task/:id', async (req, res) => {
+    const id = req.params.id;
+    const task = req.body;
+    const query = {_id: ObjectId(id)}
+    const filter = {
+        $set: task
+    }
+    const update = await completeCollection.update(query, filter);
+    res.send(update);
 })
 
     }
