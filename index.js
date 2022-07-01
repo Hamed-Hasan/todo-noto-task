@@ -60,7 +60,11 @@ app.post('/complete', async (req, res) => {
     const result = await completeCollection.insertOne(completeTask);
     res.send(result);
 })
-
+// get complete task
+app.get('/complete', async (req, res) => {
+    const task = await completeCollection.find().toArray();
+    res.send(task);
+})
 
     }
     finally {
